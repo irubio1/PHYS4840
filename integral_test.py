@@ -1,4 +1,4 @@
-#!/usr/bin/python3.8
+#!/usr/bin/python3.12
 import numpy as np
 import time
 import matplotlib.pyplot as plt
@@ -166,6 +166,9 @@ def function(x):
 traps_array = []
 simps_array = []
 rombs_array = []
+traps_time = []
+simps_time = []
+rombs_time = []
 N_value_array = []
 
 
@@ -200,6 +203,9 @@ for N in [5, 100, 1000, 10000]:
     traps_array.append(trap_error)
     simps_array.append(simp_error)
     rombs_array.append(romb_error)
+    traps_time.append(trap_time)
+    simps_time.append(simp_time)
+    rombs_time.append(romb_time)
     N_value_array.append(N)
 
 
@@ -234,4 +240,35 @@ ax[2].set_ylabel('Romberg Integration Method Error (log scale)')
 ax[2].set_title('Romberg Integration error vs. N')
 
 plt.tight_layout()  # Adjust layout for better readability
+plt.show()
+
+#plot accuracy vs compute time
+fig, ax = plt.subplots(3, figsize=(10,10))
+
+#Trapezoidal Rule
+ax[0].scatter(traps_time, traps_array, color='blue', marker='x', s=80)
+ax[0].set_xscale('log')
+ax[0].set_yscale('log')
+ax[0].set_xlabel('Compute time (log scale)')
+ax[0].set_ylabel('Trapezoidal Method Error (log scale)')
+ax[0].set_title('Trapezoidal Rule error vs. Compute Time')
+
+#Simpson's Rule
+ax[1].scatter(simps_time, simps_array, color='purple', marker='x', s=80)
+ax[1].set_xscale('log')
+ax[1].set_yscale('log')
+ax[1].set_xlabel('Compute time (log scale)')
+ax[1].set_ylabel('Simpson’s Method Error (log scale)')
+ax[1].set_title('Simpson’s Rule error vs. Compute Time')
+
+
+# Romberg Integration
+ax[2].scatter(rombs_time, rombs_array, color='red', marker='x', s=80)
+ax[2].set_xscale('log')
+ax[2].set_yscale('log')
+ax[2].set_xlabel('Compute Time (log scale)')
+ax[2].set_ylabel('Romberg Integration Method Error (log scale)')
+ax[2].set_title('Romberg Integration error vs. Compute Time')
+
+plt.tight_layout()
 plt.show()
