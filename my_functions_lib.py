@@ -55,3 +55,29 @@ def simpsons_rule(f, a, b, n):
     y = f(x)
     h = (b - a) / n
     return (h/3) * (y[0] + 4*np.sum(y[1:n:2]) + 2*np.sum(y[2:n-1:2]) + y[-1])
+
+"""
+Remember that for integration we can use:
+
+import numpy a np
+
+# Number of points (n) for Gauss-Legendre Quadrature
+n = 1000
+
+legendre_roots, weights = np.polynomial.legendre.leggauss(n)
+integral_approx = 0
+
+for i in range(n):
+    point = legendre_roots[i]
+    weight = weights[i]
+    function_value = f(point)
+    
+    weighted_value = weight*function_value
+    integral_approx = integral_approx + weighted_value
+
+print(integral_approx)
+    
+for error:
+	error = np.abs(exact_integral - integral_approx)
+
+"""
