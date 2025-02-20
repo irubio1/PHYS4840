@@ -207,13 +207,31 @@ for N in [5, 100, 1000, 10000]:
 
     
 #plot trap error vs. N
-fig, ax = plt.subplots(3, figsize=(8,16))
-ax[0].scatter(N_value_array, traps_array, color='blue', marker='x', s=80)
-#ax[0].xscale('log') figure out how to do log scale in ax
-#ax[0].yscale('log')
-ax[0].xlabel('N values (log scale)')
-ax[0].ylabel('Trapezoidal Method Error (log scale)')
-ax[0].title('Trapezoidal Rule error vs. N')
-#plt.legend()
+fig, ax = plt.subplots(3, figsize=(10,10))
 
+# Trapezoidal Rule
+ax[0].scatter(N_value_array, traps_array, color='blue', marker='x', s=80)
+ax[0].set_xscale('log')
+ax[0].set_yscale('log')
+ax[0].set_xlabel('N values (log scale)')
+ax[0].set_ylabel('Trapezoidal Method Error (log scale)')
+ax[0].set_title('Trapezoidal Rule error vs. N')
+
+# Simpson's Rule
+ax[1].scatter(N_value_array, simps_array, color='purple', marker='x', s=80)
+ax[1].set_xscale('log')
+ax[1].set_yscale('log')
+ax[1].set_xlabel('N values (log scale)')
+ax[1].set_ylabel('Simpson’s Method Error (log scale)')
+ax[1].set_title('Simpson’s Rule error vs. N')
+
+# Romberg Integration
+ax[2].scatter(N_value_array, rombs_array, color='red', marker='x', s=80)
+ax[2].set_xscale('log')
+ax[2].set_yscale('log')
+ax[2].set_xlabel('N values (log scale)')
+ax[2].set_ylabel('Romberg Integration Method Error (log scale)')
+ax[2].set_title('Romberg Integration error vs. N')
+
+plt.tight_layout()  # Adjust layout for better readability
 plt.show()
