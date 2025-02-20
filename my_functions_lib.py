@@ -35,14 +35,23 @@ def distance_modulus(d):
 	return distance_modulus
 		
 
-
-
-	
-	#this is in pc
-
-	return d
-
 def format_axes(ax):
     ax.tick_params(axis='both', which='major', labelsize=14, length=6, width=1.5)  # Larger major ticks
     ax.tick_params(axis='both', which='minor', labelsize=12, length=3, width=1)    # Minor ticks
     ax.minorticks_on()  # Enable minor ticks
+
+
+def trapezoidal_rule(f, a, b, n):
+    x = np.linspace(a, b, n+1)
+    y = f(x)
+    h = (b - a) / n
+    return (h / 2) * (y[0] + 2 * np.sum(y[1:-1]) + y[-1])
+
+
+def simpsons_rule(f, a, b, n):
+    if n % 2 == 1:
+        raise ValueError("n must be even for Simpson's Rule")
+    x = np.linspace(a, b, n+1)
+    y = f(x)
+    h = (b - a) / n
+    return (h/3) * (y[0] + 4*np.sum(y[1:n:2]) + 2*np.sum(y[2:n-1:2]) + y[-1])
