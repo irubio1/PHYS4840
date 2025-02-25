@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from math import tanh
 
 
 def my_function(vector):
@@ -81,3 +82,11 @@ for error:
 	error = np.abs(exact_integral - integral_approx)
 
 """
+
+
+def f(x):
+	f = 1+1/2*tanh(2*x)
+	return f
+
+
+	#derivative = sec^2(2x)
