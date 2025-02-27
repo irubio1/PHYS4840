@@ -90,3 +90,129 @@ def f(x):
 
 
 	#derivative = sec^2(2x)
+
+
+def romberg(y_values, x_values, max_order):
+    """
+    Approximates the integral using Romberg's method for given y_values at given x_values.
+
+    Parameters:
+        y_values (array-like): The function values at given x points.
+        x_values (array-like): The x values corresponding to y_values.
+        max_order (int): Maximum order (controls accuracy).
+
+    Returns:
+        float: The approximated integral.
+    """
+    R = np.zeros((max_order, max_order))
+    a = x_values[0]
+    b =x_values[-1]
+    N = 1
+    h = (b - a)/N
+
+    # First trapezoidal estimate
+    R[0, 0] = (h / 2) * (y_values[0] + y_values[-1])
+
+    for i in range(1, max_order):
+        N = 2**i#Remember: we are recomputing the integral with different N (and therefore h)
+        h = (b - a) / N #Look at the github derivation for richardson extrapolation
+
+        sum_new_points = sum(np.interp(a + k * h, x_values, y_values) for k in range(1, N, 2))
+        R[i, 0] = 0.5 * R[i - 1, 0] + h * sum_new_points
+
+        for j in range(1, i + 1):
+            R[i, j] = R[i, j - 1] + (R[i, j - 1] - R[i - 1, j - 1]) / (4**j - 1)
+
+    return R[max_order - 1, max_order - 1]
+
+#Trapezoidal rule with array data
+def trapezoidal(y_values, x_values, N):
+    """
+    Approximates the integral using trapezoidal rule for given y_values at given x_values.
+    
+    Parameters:
+        y_values (array-like): The function values at given x points.
+        x_values (array-like): The x values corresponding to y_values.
+        N (int): Number of intervals.
+
+    Returns:
+        float: The approximated integral.
+    """
+    a = x_values[0] #first value
+    b = x_values[-1] #last value
+    h = (b-a)/N
+
+    integral = (1/2) * (y_values[0] + y_values[-1]) * h  # First and last terms
+
+    for k in range(1, N):
+        xk = a + k * h  # Compute x_k explicitly
+        yk = np.interp(xk, x_values, y_values)  # Interpolate y at x_k manually in loop
+        integral += yk * h
+
+    return integral
+
+# Simpson's rule for array data
+def simpsons(y_values, x_values, N):
+    """
+    Approximates the integral using Simpson's rule for given y_values at given x_values.
+
+    Parameters:
+        y_values (array-like): The function values at given x points.
+        x_values (array-like): The x values corresponding to y_values.
+        N (int): Number of intervals (must be even).
+
+    Returns:
+        float: The approximated integral.
+    """
+
+    a = x_values[0]
+    b = x_values[-1]
+    h = (b-a)/N
+
+    integral = y_values[0] + y_values[-1]# First and last y_value terms
+
+    for k in range(1, N, 2):  # Odd indices (weight 4)
+        xk = a + k * h
+        yk = np.interp(xk, x_values, y_values)
+        integral += 4 * yk
+
+    for k in range(2, N, 2):  # Even indices (weight 2)
+        xk = a + k * h
+        yk = np.interp(xk, x_values, y_values)
+        integral += 2 * yk
+
+    return (h / 3) * integral  # Final scaling
+
+def romberg_rule(f, a, b, max_order):
+    """
+    Approximates the integral using Romberg's method, leveraging the trapezoidal rule.
+
+    Parameters:
+        f (function): The function to integrate.
+        a (float): Lower bound of integration.
+        b (float): Upper bound of integration.
+        max_order (int): Maximum order (controls accuracy).
+
+    Returns:
+        float: The approximated integral.
+    """
+    R = np.zeros((max_order, max_order))  # Create a Romberg table
+    
+    # First approximation using the trapezoidal rule
+    R[0, 0] = trapezoidal_rule(f, a, b, 1)
+    
+    for i in range(1, max_order):
+        N = 2**i  # Number of intervals (doubles each step)
+        R[i, 0] = trapezoidal_rule(f, a, b, N)
+        
+        # Compute extrapolated Romberg values
+        for j in range(1, i + 1):
+            R[i, j] = R[i, j - 1] + (R[i, j - 1] - R[i - 1, j - 1]) / (4**j - 1)
+    
+    return R[max_order - 1, max_order - 1]  # Return the most refined estimate
+
+
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial(n - 1)
