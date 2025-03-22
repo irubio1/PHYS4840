@@ -88,8 +88,15 @@ def f(x):
 	f = 1+1/2*tanh(2*x)
 	return f
 
+def f_with_numpy(x):
+	fx = 1.0 +0.5*np.tanh(2*x)
+	return fx
 
 	#derivative = sec^2(2x)
+
+def df_dx_analytical(x):
+	dfdx = 1.0/(np.cosh(2.0*x)**2.0)
+	return dfdx
 
 
 def romberg(y_values, x_values, max_order):
@@ -216,3 +223,20 @@ def factorial(n):
     if n == 0 or n == 1:
         return 1
     return n * factorial(n - 1)
+
+def qr_decomposition(A):
+    ## Computes the QR decomposition of matrix A using
+    ## Gram-Schmidt orthogonalization.
+    m, n = A.shape
+    Q = np.zeros((m, n))
+    R = np.zeros((n, n))
+
+    for j in range(n):
+        v = A[:, j]  # Take column j of A
+        for i in range(j):  # Subtract projections onto previous Q columns
+            R[i, j] = np.dot(Q[:, i], A[:, j])
+            v = v - R[i, j] * Q[:, i]
+        R[j, j] = np.linalg.norm(v)  # Compute norm
+        Q[:, j] = v / R[j, j]  # Normalize
+
+    return Q, R
