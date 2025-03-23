@@ -33,17 +33,17 @@ quality_cut = np.where( (red   > -99.) &\
 
 acceptable_colors = color[quality_cut]
 acceptable_magnitude = magnitude[quality_cut]
-## set dimensions of figure 
+
 fig, ax = plt.subplots(figsize=(8,16))
 
 plt.plot(acceptable_colors, acceptable_magnitude, "k.")
 plt.gca().invert_yaxis()
 plt.xlabel("Color: B-R", fontsize = 15)
 plt.ylabel("Magnitude: B", fontsize = 15)
-plt.title('Hubble Space Telescope Data for the\nGlobular Cluster NGC6341', fontsize=22)
+plt.title('Hubble Space Telescope Data for the\nGlobular Cluster NGC6341', fontsize=20)
 plt.xlim(-2, 5)
 plt.ylim(25,13.8)
-#plt.show()
+plt.show()
 plt.close()
 
 #__________________________________________________________________________________________#
@@ -52,12 +52,12 @@ plt.close()
 fig, ax = plt.subplots(figsize=(8, 16))
 
 membership_probability = probability[quality_cut]
+#quality_cut here gives me all the VALID points of the membership probability (>-1)
 
-# Create a scatter plot with color-coding by probability
 scatter = ax.scatter(acceptable_colors, acceptable_magnitude, c=membership_probability, 
                      cmap='viridis', s=4, alpha=0.8)
 
-# Add a color bar to show the probability scale
+# Add a color bar to show probability
 cbar = plt.colorbar(scatter)
 cbar.set_label('Membership Probability', fontsize=16)
 

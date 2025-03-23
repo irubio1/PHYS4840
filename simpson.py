@@ -41,3 +41,15 @@ print(f"Approximated Integral with N={N}: {integral_approx}")
 
 #Hint: the integral of e^(-x**2) between 0 and 1 is 0.746824132812427
 
+"""
+(simulations) irubio@RubilYio:~/PHYS4840_labs$ python simpson.py
+Approximated Integral with N=2: 0.7471804289095103
+(simulations) irubio@RubilYio:~/PHYS4840_labs$ python simpson.py
+Approximated Integral with N=3: 0.5496929676032134
+(simulations) irubio@RubilYio:~/PHYS4840_labs$ python simpson.py
+Approximated Integral with N=10: 0.7468249482544435
+(simulations) irubio@RubilYio:~/PHYS4840_labs$ python simpson.py
+Approximated Integral with N=100: 0.7468241328941758
+(simulations) irubio@RubilYio:~/PHYS4840_labs$
+
+"""

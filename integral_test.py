@@ -172,8 +172,9 @@ rombs_time = []
 N_value_array = []
 
 
-
-for N in [5, 100, 1000, 10000]:
+n = np.linspace(100, 10000,100)
+for N in n:
+    N = int(N)
     # Function to integrate
     def function(x):
         return x * np.exp(-x)
@@ -240,7 +241,8 @@ ax[2].set_ylabel('Romberg Integration Method Error (log scale)')
 ax[2].set_title('Romberg Integration error vs. N')
 
 plt.tight_layout()  # Adjust layout for better readability
-plt.show()
+#plt.show()
+plt.savefig("Accuracy_vs_N.png")
 
 #plot accuracy vs compute time
 fig, ax = plt.subplots(3, figsize=(10,10))
@@ -271,4 +273,5 @@ ax[2].set_ylabel('Romberg Integration Method Error (log scale)')
 ax[2].set_title('Romberg Integration error vs. Compute Time')
 
 plt.tight_layout()
-plt.show()
+#plt.show()
+plt.savefig("Accuracy_vs_computetime.png")
