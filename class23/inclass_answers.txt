@@ -1,0 +1,45 @@
+
+Q1: Go to 3D_solver.py
+
+a) Why are there now 6 terms in phi_new instead of four?
+	There are now 6 terms because we're handling 3 elemnts in our coordinate system (X, Y, Z)
+	which shifts how many estimates we're making with differentiation phi. Before we were only 
+	concered with x and y, so our derivatives and solution reflected that.
+
+b) Why have I made the grid size smaller? What happens when you put it back to 100?
+	Runtime and converegence? When you put it back to 100, the rate at which the program is running
+	and finishes slows down considerably. By making the grid size bigger, you're increasing the 
+	number of points it's checking by nearl 3000% i think. (assuming 100^3/20^3 * 100% is correctly
+	putting that into perspective since it's running over every point in the cross dimensional space? So maybe just 100^2/30^2 * 100% = 1100%)
+
+	--- it took so long and I'm sure it would've converged eventually but I already waiting 10 minutes at it was only at: 
+	Iteration 800, max delta = 3.00e-04
+
+
+c) What happens when you change the convergence criterion?
+	When you change the convergence criterion, it changes how detailed and exactly you're examing the 
+	cross-dimensional slice as show with the plot. When I run the program with a delta = 1e-3, the 
+	max potential on my colorbar reflect 0.05 while at 1e-6 it reflect 0.16 which suggests that a lower convergence leads to error in my data and a higher convergence (like 1e-8) also reflects at 0.16
+
+
+
+d) Where are the boundary conditions being preserved in the 2D case vs 3D case?
+	In the 2D case, we're conserving the top row having V=1 while the bottom and side rows are 
+	kept implicitly at 0. In the 3D case, we're conserving that the entire top of the box is kept at zero and thus [:,:,0]=V keeps anything within the top of the matrix implicitly at 0 and the rest:
+
+	phinew[:,:,N] = 0 --- keeps any z != 0 at 0
+    phinew[:,0,:] = 0 --- keeps any y == 0 at 0
+    phinew[:,N,:] = 0 --- keeps any y != 0 at 0
+    phinew[0,:,:] = 0 --- keeps any x == 0 at 0
+    phinew[N,:,:] = 0 --- keeps any x != 0 at 0
+
+    Assuming the other box boundaries (sides) are at x = 0 and y = 0, this keeps the sides at zero explicitly.
+
+Q2: Go to poisson_using_roll.py o
+
+a) Understand what this means. Look up np.roll() within the Python documentation and explain what it does
+	The numpy.roll() function rolls array elements along the specified axis. Basically what happens is that elements of the input array are being shifted. If an element is being rolled first to the last position, it is rolled back to the first position.
+
+	BASICALLY, from how I understand it. It rolls the elements a certain number of times through the array and if it's on an axis then it'll shift the rows with the element == axis the number of times instead? I think?
+
+b) Move the function in this script into your my_functions_lib.py and use it to solve the 3D version of this problem

@@ -240,3 +240,42 @@ def qr_decomposition(A):
         Q[:, j] = v / R[j, j]  # Normalize
 
     return Q, R
+
+def euler_method(f, x0, t0, t_end, dt):
+    #I believe f here is the f(x,t) where:
+    # x0 is x(t0) = x0
+    #t_end is our ending time
+    #dt is the step size
+    t_values = np.arange(t0, t_end + dt, dt)
+    x_values = np.zeros(len(t_values))
+    x_values[0] = x0
+
+    for i in range(1, len(t_values)):
+        x_values[i] = x_values[i - 1] + dt * f(x_values[i-1], i-1)
+
+    return t_values, x_values
+
+def differential_eq(x, t):
+    expresison = x**2 -x
+    return expression
+
+def laplacian_operator(Phi, dx, dy, dz):
+    """
+    Compute the Laplacian of a scalar field Phi (i.e., apply the Poisson operator)
+    using central finite differences on a 3D uniform grid.
+
+    Parameters:
+    - Phi : 3D numpy array of shape (nx, ny, nz)
+    - dx, dy, dz : grid spacings in x, y, z directions
+
+    Returns:
+    - laplacian : 3D numpy array of the same shape as Phi
+    """
+
+    laplacian = (
+        (np.roll(Phi, -1, axis=0) - 2*Phi + np.roll(Phi, 1, axis=0)) / dx**2 +
+        (np.roll(Phi, -1, axis=1) - 2*Phi + np.roll(Phi, 1, axis=1)) / dy**2 +
+        (np.roll(Phi, -1, axis=2) - 2*Phi + np.roll(Phi, 1, axis=2)) / dz**2
+    )
+
+    return laplacian
